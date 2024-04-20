@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My profile | maitre crepes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<!-- style="display: none;" -->
+
+<body>
+
+    <nav>
+        <div class="logo"><span>M</span>aitre.crepes</div>
+        <ul>
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/menu.html">Menu</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="/profile.html">Profile</a></li>
+            <li><a href="login.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+            <li><a href="logout.php"><i class="fa-solid fa fa-sign-out">Log out</i></a></li>
+
+
+        </ul>
+    </nav>
+
+
+    <section class="profile">
+        <div class="container">
+            <div class="img"><img id="img" src="/imgs/img1.png" alt=""></div>
+            <p id="name">Khawla Zahi</p>
+            <p id="desc">add description</p>
+            <button onclick="show()" id="edit-btn">Edit profile</button>
+            <div id="profile-form" style="display: none;">
+                <input type="text" id="new-name" placeholder="New name">
+                <input type="text" id="new-desc" placeholder="New description">
+                <button id="save-button" onclick="edit()">Save</button>
+            </div>
+    </section>
+
+    <div id="crepes-menu" class="profile-menu"></div>
+
+    <script>
+
+        function show() {
+            document.getElementById('profile-form').style.display = "flex";
+        }
+
+        function edit() {
+            const name = document.getElementById('name');
+            const new_name = document.getElementById('new-name');
+            const desc = document.getElementById('desc');
+            const new_desc = document.getElementById('new-desc');
+
+            name.innerHTML = new_name.value;
+            desc.innerHTML = new_desc.value;
+
+            document.getElementById('profile-form').style.display = "none";
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        fetch('plates.json')
+            .then(response => response.json())
+            .then(data => {
+                const menuContainer = document.getElementById('crepes-menu');
+
+                data.forEach(plate => {
+                    const plateElement = document.createElement('div');
+                    plateElement.innerHTML = `
+            <h2><span id="${plate.name}-quantity">1</span>  ${plate.name}</h2>
+            <p>${plate.description}</p>
+            <p>Price: ${plate.price} DZA</p>
+            <button onclick="addToOrder('${plate.name}')">Add to Order</button>
+            <button onclick="removeFromOrder('${plate.name}')">Remove from Order</button>
+          `;
+                    menuContainer.appendChild(plateElement);
+                });
+            })
+            .catch(error => console.error('Error fetching crepes menu:', error));
+
+        let order = {};
+
+        function addToOrder(plateName) {
+            if (order[plateName]) {
+                order[plateName]++;
+            } else {
+                order[plateName] = 1;
+            }
+            updateOrderDisplay(plateName);
+        }
+
+        function removeFromOrder(plateName) {
+            if (order[plateName] && order[plateName] > 0) {
+                order[plateName]--;
+                updateOrderDisplay(plateName);
+            }
+        }
+
+        function updateOrderDisplay(plateName) {
+            const quantitySpan = document.getElementById(`${plateName}-quantity`);
+            if (quantitySpan) {
+                quantitySpan.textContent = order[plateName] || 0; // Display 0 if order quantity is undefined
+            }
+        }
+
+    </script>
+
+
+    <footer>
+        <div class="text">
+            <h1>Maitre crepes</h1>
+            <p>
+                An HTML, CSS, PHP, and a splash of JavaScript come together to create something special. I've crafted
+                this dynamic website that's only visually appealing. Whether you're exploring our menu, checking out our
+                story, or simply browsing around, I hope you enjoy the ride!
+            </p>
+        </div>
+        <hr>
+        <div class="cop">
+            created by <a href="https://github.com/khawla-14">@khawla</a>
+        </div>
+    </footer>
+</body>
+
+</html>

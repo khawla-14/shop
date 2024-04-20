@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Crepes with Nutella",
+        "description": "Delicious crepes filled with Nutella.",
+        "price": 300.00
+    },
+    {
+        "name": "Strawberry Crepes",
+        "description": "Fresh strawberry-filled crepes topped with whipped cream.",
+        "price": 400.00
+    },
+    {
+        "name": "Strawberry Crepes",
+        "description": "Fresh strawberry-filled crepes topped with whipped cream.",
+        "price": 400.00
+    }
+]
